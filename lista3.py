@@ -57,23 +57,26 @@ if __name__ == "__main__":
     #     print(vector_image[i][0])
 
 
-    vec_pos = 0
-    for i in range(0, vector_size//5):
-        new_line = np.empty([5*row_columns, 3], dtype="uint8")
-        for j in range(0, 5):
-            line = convert_line(vector_image[vec_pos][1][j])
-            new_line.append(line)
-            vec_pos = vec_pos + 1
+    # vec_pos = 0
+    # for i in range(0, vector_size//5):
+    #     new_line = np.empty([0, 3], dtype="uint8")
+    #     for j in range(0, 5):
+    #         line = convert_line(vector_image[vec_pos][1][j])
+    #         new_line.append(line)
+    #         vec_pos = vec_pos + 1
 
 
     image_line = 0
     for i in range(0, len(vector_image), 5):
         for lins in range(0, row_line):
-            new_line = np.empty([5*row_columns, 3], dtype="uint8")
+            new_line = np.empty([0, 3], dtype="uint8")
             for cols in range(i, i+5):
                 line = convert_line(vector_image[cols][1][lins])
-                new_line.append(line)
-            new_image[image_line] = 
+                new_line = np.append(new_line, line, axis=0)
+            new_image[image_line] = new_line
+            image_line = image_line + 1
+
+
 
     cv2.imshow('Bubble Sort', new_image)
 
