@@ -12,6 +12,7 @@ from threading import Thread
 #         new_image[i] = line
 #     return new_image
 
+
 # def convert_line(original_line):
 #     size = len(original_line)
 #     new_line = np.empty([size, 3], dtype="uint8")
