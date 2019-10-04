@@ -180,13 +180,22 @@ def counting_sort(vector_image, maxval):
     n = len(vector_image) # obtendo o tamanho do vetor
     m = maxval + 1 # atribuindo o tamanho do vetor + 1 por começar a 0
     count = [0] * m # inicializando o  novo vetor com o tamanho definido
-    for a in vector_image:  #contando quantas vezes os elementos se repetem dentro do vetor
-        count[a[0]] = a
+    for pos in range(n):  #contando quantas vezes os elementos se repetem dentro do vetor
+        pos_id = vector_image[pos][0]
+        pos_image = vector_image[pos][1]
+        count[pos_id] =  vector_image[pos]
+        vector_image[pos] = (pos_id, paint_piece_blue(pos_image))
+        cv2.imshow('Counting Sort', prepare_image(vector_image))
+        cv2.waitKey(1)
+        time.sleep(0.2)
     i = 0
     for a in range(m):
+        print('passou')
         vector_image[i] = count[a]
         i += 1
-        cv2.imshow('ale Sort', prepare_image(vector_image))
+        cv2.imshow('Counting Sort', prepare_image(vector_image))
+        cv2.waitKey(1)
+        time.sleep(0.3)
     return vector_image
 
 def insertionSort(b):
@@ -263,8 +272,10 @@ if __name__ == "__main__":
     #                     0     1
     # vector_image[0] = (id, image)
     # vector_image[pos][0] = id
-    print(len(vector_image))
-    counting_sort(vector_image, 24)
+    
+    # counting_sort(vector_image, 24)
+
+    # quick_sort(vector_image, 0, len(vector_image) - 1)
 
 
 
