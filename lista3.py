@@ -73,7 +73,7 @@ def partition(vector_image, low, high):
     pivot = vector_image[high]
     pivot_pos = high
     index_small = low-1 #Começa menor do que o primeiro elemento, pois alocará o primeiro menor que o pivot na primeira posiçao
-    print(pivot[0])
+    #print(pivot[0])
     pivot_id = pivot[0]
     size = len(vector_image)
 
@@ -163,44 +163,44 @@ def mergeSort(vector_image, low, high):
             real_image = vector_image[i][1]
             pos_id = vector_image[i][0]
             vector_image[i] = (vector_image[i][0], paint_piece_blue(real_image))
-        
+
         cv2.imshow('Merge Sort', prepare_image(vector_image))
         cv2.waitKey(1)
-        time.sleep(0.2) 
+        time.sleep(0.2)
 
 
-        i = 0 
+        i = 0
         j = 0
         k = low
-        while i < len(leftVector) and j < len(rightVector): 
-            if leftVector[i] < rightVector[j]: 
+        while i < len(leftVector) and j < len(rightVector):
+            if leftVector[i] < rightVector[j]:
                 vector_image[k] = leftVector[i]
                 cv2.imshow('Merge Sort', prepare_image(vector_image))
                 cv2.waitKey(1)
-                time.sleep(0.2) 
+                time.sleep(0.2)
                 i+=1
-            else: 
-                vector_image[k] = rightVector[j] 
+            else:
+                vector_image[k] = rightVector[j]
                 cv2.imshow('Merge Sort', prepare_image(vector_image))
                 cv2.waitKey(1)
-                time.sleep(0.2) 
+                time.sleep(0.2)
                 j+=1
             k+=1
-          
-        # Checking if any element was left 
-        while i < len(leftVector): 
+
+        # Checking if any element was left
+        while i < len(leftVector):
             vector_image[k] = leftVector[i]
             cv2.imshow('Merge Sort', prepare_image(vector_image))
             cv2.waitKey(1)
-            time.sleep(0.2) 
+            time.sleep(0.2)
             i+=1
             k+=1
-          
-        while j < len(rightVector): 
-            vector_image[k] = rightVector[j] 
+
+        while j < len(rightVector):
+            vector_image[k] = rightVector[j]
             cv2.imshow('Merge Sort', prepare_image(vector_image))
             cv2.waitKey(1)
-            time.sleep(0.2) 
+            time.sleep(0.2)
             j+=1
             k+=1
         # for v in vector_image:
@@ -208,8 +208,8 @@ def mergeSort(vector_image, low, high):
         # print('\n')
 
     return
-        
-    
+
+
 
 
 def counting_sort(vector_image, maxval):
@@ -267,13 +267,25 @@ def bucketSort(vector_image):
             k += 1
     return vector_image
 
+def menu_principal():
+    print("*******************************************")
+    print("**            MENU - LISTA 3             **")
+    print("*******************************************")
+    print("**   1 - Merge Sort                      **")
+    print("**   2 - Quick Sort                      **")
+    print("**   3 - Counting Sort                   **")
+    print("**   4 - Créditos                        **")
+    print("**   0 - Sair                            **")
+    print("*******************************************")
+    escolha = input("Digite uma Escolha: ")
+    return escolha
 
 
 
 if __name__ == "__main__":
     img = cv2.imread('arya.jpeg')
     cv2.imshow('Arya, The Cat', img)
-    print(img[0][0])
+    #(img[0][0])
 
     lines = len(img)
     columns = len(img[0])
@@ -304,17 +316,51 @@ if __name__ == "__main__":
 
     new_image = prepare_image(vector_image)
 
+
+
+    escolha = 0
+    # Loop do menu do programa
+    while escolha != '100':
+        escolha = menu_principal()
+        # escolha 1 - Jogo
+        if escolha == '1':
+            random.shuffle(vector_image)
+            mergeSort(vector_image, 0, len(vector_image))
+            # Escolha 2 - Buscas fora do jogo
+        elif escolha == '2':
+            random.shuffle(vector_image)
+            quick_sort(vector_image, 0, len(vector_image) - 1)
+        elif escolha == '3':
+            random.shuffle(vector_image)
+            counting_sort(vector_image, 24)
+            # Créditos
+        elif escolha == '4':
+            random.shuffle(vector_image)
+            print("\n**************************************")
+            print("Esse trabalho foi feito com carinho pelos alunos:")
+            print("Alexandre Miguel Rodrigues Nunes Pereira - Matricula: 16/0000840")
+            print("Wictor Bastos Girardi - Matricula: 17/0047326")
+            print("**************************************\n\n")
+            # Sair do programa
+        elif escolha == '0':
+            random.shuffle(vector_image)
+            print("Obrigado por usar, volte sempre!\n")
+            cv2.waitKey(0)
+            break
+            # Caso o usuario tenha entrado com um valor invalido
+        else:
+            print('Opção Invalida! Tente novamente')
+
+
+
     #                     0     1
     # vector_image[0] = (id, image)
     # vector_image[pos][0] = id
-    
+
     # counting_sort(vector_image, 24)
 
     # quick_sort(vector_image, 0, len(vector_image) - 1)
 
     # mergeSort(vector_image, 0, len(vector_image))
-
-
-
 
     cv2.waitKey(0)
