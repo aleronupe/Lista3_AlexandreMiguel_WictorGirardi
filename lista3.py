@@ -28,7 +28,7 @@ def paint_piece_blue(real_image):
     for i in range(0,lin):
         line = []
         for j in range(0,col):
-            converted = [0, real_image[i][j][1], 0] 
+            converted = [0, real_image[i][j][1], 0]
             pixel = np.array(converted, dtype="uint8")
             line.append(pixel)
         line = np.array(line, dtype="uint8")
@@ -44,7 +44,7 @@ def paint_piece_green(real_image):
     for i in range(0,lin):
         line = []
         for j in range(0,col):
-            converted = [real_image[i][j][0], 0, 0] 
+            converted = [real_image[i][j][0], 0, 0]
             pixel = np.array(converted, dtype="uint8")
             line.append(pixel)
         line = np.array(line, dtype="uint8")
@@ -79,7 +79,7 @@ def partition(vector_image, low, high):
 
     image_backup = [None] * size
 
-    
+
     for i in range(low, high+1):
         real_image = vector_image[i][1]
         pos_id = vector_image[i][0]
@@ -90,7 +90,7 @@ def partition(vector_image, low, high):
             vector_image[i] = (vector_image[i][0], paint_piece_blue(real_image))
             image_backup[pos_id] = real_image
 
-    for pos in range(low, high):    
+    for pos in range(low, high):
         # vec_pos = pos
         # pos_id = vector_image[pos][0]
         # red_image = vector_image[pos][1]
@@ -110,7 +110,7 @@ def partition(vector_image, low, high):
             time.sleep(0.3)
         # vector_image[vec_pos] = (pos_id, red_image)
 
-        
+
     pivot_pos = index_small+1
     vector_image[high], vector_image[pivot_pos] = vector_image[pivot_pos], vector_image[high]
     cv2.imshow('Quick Sort', prepare_image(vector_image))
@@ -127,24 +127,101 @@ def partition(vector_image, low, high):
     cv2.imshow('Quick Sort', prepare_image(vector_image))
     cv2.waitKey(1)
     time.sleep(0.3)
-            
-    
-    
 
     return pivot_pos
 
-
-
 def quick_sort(vector_image, low, high):
-    
+
     if low < high:
         pivot_pos = partition(vector_image, low, high)
         quick_sort(vector_image, low, pivot_pos - 1)
         quick_sort(vector_image, pivot_pos+1, high)
 
     return
-    
+    # witao aqui
 
+def mergeSort(vector_image):
+
+    if len(vector_image)>1:
+        mid = len(vector_image)//2
+        print(len(vector_image))
+        lefthalf = vector_image[:mid]
+        righthalf = vector_image[mid:]
+
+        mergeSort(lefthalf)
+        mergeSort(righthalf)
+
+        i=0
+        j=0
+        k=0
+        while i < len(lefthalf) and j < len(righthalf):
+            if lefthalf[i] <= righthalf[j]:
+                vector_image[k]=lefthalf[i]
+                i=i+1
+            else:
+                vector_image[k]=righthalf[j]
+                j=j+1
+            k=k+1
+
+        while i < len(lefthalf):
+            vector_image[k]=lefthalf[i]
+            i=i+1
+            k=k+1
+
+        while j < len(righthalf):
+            vector_image[k]=righthalf[j]
+            j=j+1
+            k=k+1
+    print(len(vector_image))
+    cv2.imshow('Quick Sort', prepare_image(vector_image))
+
+
+def counting_sort(vector_image, maxval):
+    n = len(vector_image) # obtendo o tamanho do vetor
+    m = maxval + 1 # atribuindo o tamanho do vetor + 1 por começar a 0
+    count = [0] * m # inicializando o  novo vetor com o tamanho definido
+    for a in vector_image:  #contando quantas vezes os elementos se repetem dentro do vetor
+        count[a[0]] = a
+    i = 0
+    for a in range(m):
+        vector_image[i] = count[a]
+        i += 1
+        cv2.imshow('ale Sort', prepare_image(vector_image))
+    return vector_image
+
+def insertionSort(b):
+    for i in range(1, len(b)):
+        up = b[i]
+        j = i - 1
+        while j >=0 and b[j] > up:
+            b[j + 1] = b[j]
+            j -= 1
+        b[j + 1] = up
+    return b
+
+def bucketSort(vector_image):
+    arr = []
+    slot_num = 10 # 10 means 10 slots, each
+                  # slot's size is 0.1
+    for i in range(slot_num):
+        arr.append([])
+
+    # Put array elements in different buckets
+    for j in vector_image:
+        index_b = int(slot_num * j)
+        arr[index_b].append(j)
+
+    # Sort individual buckets
+    for i in range(slot_num):
+        arr[i] = insertionSort(arr[i])
+
+    # concatenate the result
+    k = 0
+    for i in range(slot_num):
+        for j in range(len(arr[i])):
+            vector_image[k] = arr[i][j]
+            k += 1
+    return vector_image
 
 
 
@@ -183,17 +260,14 @@ if __name__ == "__main__":
 
     new_image = prepare_image(vector_image)
 
-    #                     0     1                             
+    #                     0     1
     # vector_image[0] = (id, image)
     # vector_image[pos][0] = id
-    print(vector_image[13][0])
+    print(len(vector_image))
+    counting_sort(vector_image, 24)
 
-    cv2.imshow('Peça', vector_image[13][1])
 
-    quick_sort(vector_image, 0, len(vector_image)-1)
-    
-    
-    
+
 
 
     cv2.waitKey(0)
