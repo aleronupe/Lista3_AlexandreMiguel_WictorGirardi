@@ -140,40 +140,76 @@ def quick_sort(vector_image, low, high):
     return
     # witao aqui
 
-def mergeSort(vector_image):
+def mergeSort(vector_image, low, high):
+    if low < 0 or high < 0:
+        return
+    if (high - low) > 1:
+        mid = (high-low)//2 + low
+        mergeSort(vector_image, low, mid) # Não vai atingir o valor de mid
+        mergeSort(vector_image, mid, high) # Vai a partir de mid
 
-    if len(vector_image)>1:
-        mid = len(vector_image)//2
-        print(len(vector_image))
-        lefthalf = vector_image[:mid]
-        righthalf = vector_image[mid:]
+        leftVector = []
+        rightVector = []
 
-        mergeSort(lefthalf)
-        mergeSort(righthalf)
+        for i in range(low, mid):
+            leftVector.append(vector_image[i])
 
-        i=0
-        j=0
-        k=0
-        while i < len(lefthalf) and j < len(righthalf):
-            if lefthalf[i] <= righthalf[j]:
-                vector_image[k]=lefthalf[i]
-                i=i+1
-            else:
-                vector_image[k]=righthalf[j]
-                j=j+1
-            k=k+1
+        for j in range(mid, high):
+            rightVector.append(vector_image[j])
 
-        while i < len(lefthalf):
-            vector_image[k]=lefthalf[i]
-            i=i+1
-            k=k+1
 
-        while j < len(righthalf):
-            vector_image[k]=righthalf[j]
-            j=j+1
-            k=k+1
-    print(len(vector_image))
-    cv2.imshow('Quick Sort', prepare_image(vector_image))
+
+        for i in range(low, high):
+            real_image = vector_image[i][1]
+            pos_id = vector_image[i][0]
+            vector_image[i] = (vector_image[i][0], paint_piece_blue(real_image))
+        
+        cv2.imshow('Merge Sort', prepare_image(vector_image))
+        cv2.waitKey(1)
+        time.sleep(0.2) 
+
+
+        i = 0 
+        j = 0
+        k = low
+        while i < len(leftVector) and j < len(rightVector): 
+            if leftVector[i] < rightVector[j]: 
+                vector_image[k] = leftVector[i]
+                cv2.imshow('Merge Sort', prepare_image(vector_image))
+                cv2.waitKey(1)
+                time.sleep(0.2) 
+                i+=1
+            else: 
+                vector_image[k] = rightVector[j] 
+                cv2.imshow('Merge Sort', prepare_image(vector_image))
+                cv2.waitKey(1)
+                time.sleep(0.2) 
+                j+=1
+            k+=1
+          
+        # Checking if any element was left 
+        while i < len(leftVector): 
+            vector_image[k] = leftVector[i]
+            cv2.imshow('Merge Sort', prepare_image(vector_image))
+            cv2.waitKey(1)
+            time.sleep(0.2) 
+            i+=1
+            k+=1
+          
+        while j < len(rightVector): 
+            vector_image[k] = rightVector[j] 
+            cv2.imshow('Merge Sort', prepare_image(vector_image))
+            cv2.waitKey(1)
+            time.sleep(0.2) 
+            j+=1
+            k+=1
+        # for v in vector_image:
+        #     print(v[0], end=' ')
+        # print('\n')
+
+    return
+        
+    
 
 
 def counting_sort(vector_image, maxval):
@@ -190,7 +226,6 @@ def counting_sort(vector_image, maxval):
         time.sleep(0.2)
     i = 0
     for a in range(m):
-        print('passou')
         vector_image[i] = count[a]
         i += 1
         cv2.imshow('Counting Sort', prepare_image(vector_image))
@@ -277,6 +312,7 @@ if __name__ == "__main__":
 
     # quick_sort(vector_image, 0, len(vector_image) - 1)
 
+    # mergeSort(vector_image, 0, len(vector_image))
 
 
 
